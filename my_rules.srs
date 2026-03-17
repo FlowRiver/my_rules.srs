@@ -1,0 +1,40 @@
+# Shadowrocket 自定义规则集 (my_rules.srs)
+# 注释：# 开头的行是注释，不会生效
+
+[Rule]
+# 1. 国内域名直连
+DOMAIN-SUFFIX,baidu.com,Direct
+DOMAIN-SUFFIX,taobao.com,Direct
+DOMAIN-SUFFIX,163.com,Direct
+DOMAIN-SUFFIX,qq.com,Direct
+DOMAIN-SUFFIX,temaishuju.com,Direct
+# 国内IP直连
+GEOIP,CN,Direct
+# 局域网直连
+LAN,Direct
+
+# 2. 需代理的海外域名
+DOMAIN-SUFFIX,google.com,Proxy
+DOMAIN-SUFFIX,youtube.com,Proxy
+DOMAIN-SUFFIX,twitter.com,Proxy
+DOMAIN-SUFFIX,github.com,Proxy
+DOMAIN-SUFFIX,temu.com,Proxy
+
+# 3. 屏蔽广告/恶意域名
+DOMAIN-KEYWORD,ad,Reject
+DOMAIN-SUFFIX,tracking.com,Reject
+
+# 4. 兜底规则（未匹配的流量走代理）
+FINAL,Proxy
+
+# 可选：URL重写（去广告、改跳转）
+[URL Rewrite]
+# 示例：屏蔽某广告链接
+^https?://ad\.example\.com/*$ REJECT
+# 示例：将http跳转为https
+^http://(.*)\.github\.com$ https://$1.github.com
+
+# 可选：Host域名映射（修改DNS解析）
+[Host]
+# 示例：强制解析github.com到指定IP
+github.com = 140.82.113.4
