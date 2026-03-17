@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "rules": [
+    // 1. 国内域名直连
+    {
+      "domain_suffix": ["baidu.com", "taobao.com", "163.com", "qq.com", "temaishuju.com"],
+      "outbound": "direct"
+    },
+    // 国内IP直连
+    {
+      "geoip": ["cn"],
+      "outbound": "direct"
+    },
+    // 局域网直连
+    {
+      "ip_cidr": ["192.168.0.0/16", "10.0.0.0/8", "172.16.0.0/12"],
+      "outbound": "direct"
+    },
+    // 2. 海外域名走代理
+    {
+      "domain_suffix": ["google.com", "youtube.com", "twitter.com", "github.com", "temu.com"],
+      "outbound": "proxy"
+    },
+    // 3. 屏蔽广告/恶意域名
+    {
+      "domain_keyword": ["ad"],
+      "outbound": "reject"
+    },
+    {
+      "domain_suffix": ["tracking.com"],
+      "outbound": "reject"
+    },
+    // 4. 兜底规则（未匹配走代理）
+    {
+      "match": "all",
+      "outbound": "proxy"
+    }
+  ]
+}
